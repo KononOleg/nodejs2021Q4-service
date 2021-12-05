@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const usersRepo = require('./user.memory.repository');
-/* const tasksRepo = require('../tasks/task.memory.repository'); */
+const tasksRepo = require('../tasks/task.memory.repository');
 const StatusCode = require('../../StatusCode/StatusCode');
 const User = require('./user.model');
 
@@ -25,10 +25,10 @@ const deleteUser = async (userId) => {
   const user = usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
   usersRepo.deleteUser(user);
-  /*   const tasks = await tasksRepo.getUserTasks(userId);
+  const tasks = await tasksRepo.getUserTasks(userId);
   for (let i = 0; i < tasks.length; i += 1) {
     tasks[i].userId = null;
-  } */
+  }
   return { code: StatusCode.NoContent };
 };
 
