@@ -5,4 +5,4 @@ const StatusCode = {
   NotFound: 404,
   BadRequest: 400,
 };
-module.exports = StatusCode;
+export default StatusCode;

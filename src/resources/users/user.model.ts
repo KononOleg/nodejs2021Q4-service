@@ -1,6 +1,10 @@
 const uuid = require('uuid');
 
 class User {
+  id: any;
+  name: string;
+  login: string;
+  password: string;
   constructor({
     id = uuid(),
     name = 'USER',
@@ -13,10 +17,10 @@ class User {
     this.password = password;
   }
 
-  static toResponse(user) {
+  static toResponse(user:any) {
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
 
-module.exports = User;
+export default User;
