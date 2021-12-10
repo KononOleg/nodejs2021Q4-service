@@ -1,14 +1,17 @@
-const boards:any = [];
+import { IBoard } from './interfaces/IBoard';
 
-const getAll = () => boards;
+const boards: IBoard[] = [];
 
-const getBoard = (boardId:any) => boards.find((board:any) => board.id === boardId);
+const getAll = (): IBoard[] => boards;
 
-const createBoard = (newBoard:any) => {
+const getBoard = (boardId: string): IBoard | undefined =>
+  boards.find((board: IBoard) => board.id === boardId);
+
+const createBoard = (newBoard: IBoard): void => {
   boards.push(newBoard);
 };
 
-const deleteBoard = (board:any) => {
+const deleteBoard = (board: IBoard): void => {
   boards.splice(boards.indexOf(board), 1);
 };
 export default { getAll, getBoard, createBoard, deleteBoard };
