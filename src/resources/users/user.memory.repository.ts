@@ -1,14 +1,17 @@
-const users:any = [];
+import { IUser } from './interfaces/IUser';
 
-const getAll = () => users;
+const users: IUser[] = [];
 
-const getUser = (userId:any) => users.find((user:any) => user.id === userId);
+const getAll = (): IUser[] => users;
 
-const createUser = (newUser:any) => {
+const getUser = (userId: string): IUser | undefined =>
+  users.find((user: IUser) => user.id === userId);
+
+const createUser = (newUser: IUser): void => {
   users.push(newUser);
 };
 
-const deleteUser = (user:any) => {
+const deleteUser = (user: IUser): void => {
   users.splice(users.indexOf(user), 1);
 };
 export default { getAll, getUser, createUser, deleteUser };

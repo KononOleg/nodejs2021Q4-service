@@ -1,28 +1,30 @@
-import usersRepo  from './user.memory.repository';
-import tasksRepo  from '../tasks/task.memory.repository';
-import StatusCode  from '../../StatusCode/StatusCode';
-import User  from './user.model';
+import { v4 as uuid } from 'uuid';
+import usersRepo from './user.memory.repository';
+import tasksRepo from '../tasks/task.memory.repository';
+import StatusCode from '../../StatusCode/StatusCode';
+import User from './user.model';
+import { IUser } from './interfaces/IUser';
+import { INewUser } from './interfaces/INewUser';
+import { IServiceReturn } from './interfaces/IServiceReturn';
+import { IResponseUser } from './interfaces/IResponseUser';
 
-const { v4: uuidv4 } = require('uuid');
+const getAll = (): IResponseUser[] => usersRepo.getAll().map(User.toResponse);
 
-const getAll = () => usersRepo.getAll().map(User.toResponse);
-
-const getUser = (userId:any) => {
+const getUser = (userId: string): IServiceReturn => {
   const user = usersRepo.getUser(userId);
-
   if (!user) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: User.toResponse(user) };
 };
-const createUser = async (user:any) => {
+const createUser = (user: INewUser): IServiceReturn => {
   const newUser = {
-    id: uuidv4(),
+    id: uuid(),
     ...user,
   };
   usersRepo.createUser(newUser);
-  return { code: StatusCode.Created, newUser: User.toResponse(newUser) };
+  return { code: StatusCode.Created, send: User.toResponse(newUser) };
 };
 
-const deleteUser = async (userId:any) => {
+const deleteUser = async (userId: string): Promise<IServiceReturn> => {
   const user = usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
   usersRepo.deleteUser(user);
@@ -33,13 +35,13 @@ const deleteUser = async (userId:any) => {
   return { code: StatusCode.NoContent };
 };
 
-const udpateUser = async (userId:any, newUser:any) => {
+const udpateUser = (userId: string, newUser: IUser): IServiceReturn => {
   const user = usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
   user.name = newUser.name;
   user.login = newUser.login;
   user.password = newUser.password;
-  return { code: StatusCode.Ok, updateUser: User.toResponse(user) };
+  return { code: StatusCode.Ok, send: User.toResponse(user) };
 };
 
 export default { getAll, getUser, createUser, deleteUser, udpateUser };

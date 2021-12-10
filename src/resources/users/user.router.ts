@@ -1,36 +1,39 @@
-import usersService  from './user.service';
+import { FastifyReply, FastifyInstance, FastifyServerOptions } from 'fastify';
+import { IParams } from './interfaces/IParams';
+import usersService from './user.service';
 
-export default (fastify:any, opts:any, done:any) => {
-  fastify.get('/', async (request:any, reply:any) => {
-    const users = await usersService.getAll();
+export default (
+  fastify: FastifyInstance,
+  opts: FastifyServerOptions,
+  done: () => void
+): void => {
+  fastify.get('/', async (request, reply: FastifyReply) => {
+    const users = usersService.getAll();
     reply.header('Content-Type', 'application/json;').send(users);
   });
 
-  fastify.get('/:userId', async (request:any, reply:any) => {
+  fastify.get<IParams>('/:userId', async (request, reply: FastifyReply) => {
     const { userId } = request.params;
-    const { code, send } = await usersService.getUser(userId);
+    const { code, send } = usersService.getUser(userId);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
-  fastify.post('/', async (request:any, reply:any) => {
+  fastify.post<IParams>('/', async (request, reply: FastifyReply) => {
     const user = request.body;
-    const { code, newUser } = await usersService.createUser(user);
-    reply.code(code).header('Content-Type', 'application/json;').send(newUser);
+    const { code, send } = usersService.createUser(user);
+    reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
-  fastify.delete('/:userId', async (request:any, reply:any) => {
+  fastify.delete<IParams>('/:userId', async (request, reply: FastifyReply) => {
     const { userId } = request.params;
     const { code } = await usersService.deleteUser(userId);
     reply.code(code).header('Content-Type', 'application/json;').send();
   });
-  fastify.put('/:userId', async (request:any, reply:any) => {
+  fastify.put<IParams>('/:userId', async (request, reply: FastifyReply) => {
     const { userId } = request.params;
     const newUser = request.body;
-    const { code, updateUser } = await usersService.udpateUser(userId, newUser);
-    reply
-      .code(code)
-      .header('Content-Type', 'application/json;')
-      .send(updateUser);
+    const { code, send } = usersService.udpateUser(userId, newUser);
+    reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
   done();
 };
