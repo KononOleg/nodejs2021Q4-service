@@ -1,8 +1,9 @@
-const { v4: uuidv4 } = require('uuid');
 import usersRepo  from './user.memory.repository';
 import tasksRepo  from '../tasks/task.memory.repository';
 import StatusCode  from '../../StatusCode/StatusCode';
 import User  from './user.model';
+
+const { v4: uuidv4 } = require('uuid');
 
 const getAll = () => usersRepo.getAll().map(User.toResponse);
 

@@ -1,4 +1,5 @@
 import boardsService  from './board.service';
+
 export default (fastify:any, opts:any, done:any) => {
   fastify.get('/', async (request:any, reply:any) => {
     const boards = await boardsService.getAll();

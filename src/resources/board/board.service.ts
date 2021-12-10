@@ -1,7 +1,8 @@
-const { v4: uuidv4 } = require('uuid');
 import boardsRepo  from './board.memory.repository';
 import tasksRepo  from '../tasks/task.memory.repository';
 import StatusCode  from '../../StatusCode/StatusCode';
+
+const { v4: uuidv4 } = require('uuid');
 
 const getAll = () => boardsRepo.getAll();
 

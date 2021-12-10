@@ -6,6 +6,7 @@
     "jest": true,
     "node": true
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2021,
@@ -14,15 +15,27 @@
     }
   },
   "settings": {
-    "noInlineConfig": true
+    "noInlineConfig": true,
+    "node": {
+      "tryExtensions": [".ts"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts"]
+      }
+    }
   },
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
     "airbnb-base",
-    "prettier"
+    "prettier",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/explicit-function-return-type": "error",
     "import/extensions": "off",
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",

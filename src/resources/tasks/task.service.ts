@@ -1,6 +1,7 @@
-const { v4: uuidv4 } = require('uuid');
 import tasksRepo  from './task.memory.repository';
 import StatusCode  from '../../StatusCode/StatusCode';
+
+const { v4: uuidv4 } = require('uuid');
 
 const getAll = async (boardId:any) => {
   const tasks = await tasksRepo.getAll(boardId);
