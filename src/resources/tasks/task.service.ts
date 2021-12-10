@@ -1,44 +1,45 @@
+import { v4 as uuid } from 'uuid';
 import tasksRepo from './task.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
+import { IServiceReturn } from './interfaces/IServiceReturn';
+import { INewTask } from './interfaces/INewTask';
 
-const { v4: uuidv4 } = require('uuid');
-
-const getAll = async (boardId: any) => {
-  const tasks = await tasksRepo.getAll(boardId);
+const getAll = (boardId: string): IServiceReturn => {
+  const tasks = tasksRepo.getAll(boardId);
   if (!tasks) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: tasks };
 };
 
-const getTask = (boardId: any, taskId: any) => {
+const getTask = (boardId: string, taskId: string): IServiceReturn => {
   const task = tasksRepo.getTask(taskId);
   if (!task) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: task };
 };
-const createTask = async (boardId: any, task: any) => {
+const createTask = (boardId: string, task: INewTask): IServiceReturn => {
   const newTask = {
-    id: uuidv4(),
+    id: uuid(),
     ...task,
     boardId,
   };
-  await tasksRepo.createTask(newTask);
+  tasksRepo.createTask(newTask);
   return { code: StatusCode.Created, send: newTask };
 };
 
-const deleteTask = async (taskId: any) => {
-  const task = await tasksRepo.getTask(taskId);
+const deleteTask = (taskId: string): IServiceReturn => {
+  const task = tasksRepo.getTask(taskId);
   if (!task) return { code: StatusCode.NotFound };
 
   tasksRepo.deleteTask(task);
   return { code: StatusCode.NoContent };
 };
 
-const udpateTask = async (taskId: any, newTask: any) => {
-  let task = await tasksRepo.getTask(taskId);
+const udpateTask = (taskId: string, newTask: INewTask): IServiceReturn => {
+  let task = tasksRepo.getTask(taskId);
   if (!task) return { code: StatusCode.NotFound };
   task = Object.assign(task, newTask);
   return { code: StatusCode.Ok, send: task };
 };
-module.exports = {
+export default {
   getAll,
   getTask,
   createTask,

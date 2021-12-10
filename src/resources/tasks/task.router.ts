@@ -1,31 +1,37 @@
-const tasksService = require('./task.service');
+import { FastifyReply, FastifyInstance, FastifyServerOptions } from 'fastify';
+import { IParams } from './interfaces/IParams';
+import tasksService from './task.service';
 
-export default (fastify: any, opts: any, done: any) => {
-  fastify.get('/', async (request: any, reply: any) => {
+export default (
+  fastify: FastifyInstance,
+  opts: FastifyServerOptions,
+  done: () => void
+): void => {
+  fastify.get<IParams>('/', async (request, reply: FastifyReply) => {
     const { boardId } = request.params;
     const { code, send } = await tasksService.getAll(boardId);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
-  fastify.get('/:taskId', async (request: any, reply: any) => {
+  fastify.get<IParams>('/:taskId', async (request, reply: FastifyReply) => {
     const { boardId, taskId } = request.params;
     const { code, send } = await tasksService.getTask(boardId, taskId);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
-  fastify.post('/', async (request: any, reply: any) => {
+  fastify.post<IParams>('/', async (request, reply: FastifyReply) => {
     const { boardId } = request.params;
     const task = request.body;
-    const { code, send } = await tasksService.createTask(boardId, task);
+    const { code, send } = tasksService.createTask(boardId, task);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
-  fastify.delete('/:taskId', async (request: any, reply: any) => {
+  fastify.delete<IParams>('/:taskId', async (request, reply: FastifyReply) => {
     const { taskId } = request.params;
     const { code } = await tasksService.deleteTask(taskId);
     reply.code(code).header('Content-Type', 'application/json;').send();
   });
-  fastify.put('/:taskId', async (request: any, reply: any) => {
+  fastify.put<IParams>('/:taskId', async (request, reply: FastifyReply) => {
     const { taskId } = request.params;
     const newTask = request.body;
     const { code, send } = await tasksService.udpateTask(taskId, newTask);

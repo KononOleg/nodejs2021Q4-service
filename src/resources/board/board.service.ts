@@ -6,7 +6,7 @@ import { IColumn } from './interfaces/IColumn';
 import { IBoard } from './interfaces/IBoard';
 import { INewBoard } from './interfaces/INewBoard';
 import { IServiceReturn } from './interfaces/IServiceReturn';
-
+import { ITask } from '../tasks/interfaces/ITask';
 
 const getAll = (): IBoard[] => boardsRepo.getAll();
 
@@ -33,8 +33,8 @@ const deleteBoard = async (boardId: string): Promise<IServiceReturn> => {
   const board = boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
   boardsRepo.deleteBoard(board);
-  const tasks = await tasksRepo.getAll(boardId);
-  await tasks.map((task: any) => tasksRepo.deleteTask(task));
+  const tasks = tasksRepo.getAll(boardId);
+  tasks.map((task: ITask) => tasksRepo.deleteTask(task));
   return { code: StatusCode.NoContent };
 };
 
