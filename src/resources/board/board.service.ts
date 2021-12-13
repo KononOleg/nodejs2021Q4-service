@@ -8,13 +8,28 @@ import { INewBoard } from './interfaces/INewBoard';
 import { IServiceReturn } from './interfaces/IServiceReturn';
 import { ITask } from '../tasks/interfaces/ITask';
 
+/**
+ * Returns all board
+ * @returns {IBoard[]} all users
+ */
 const getAll = (): IBoard[] => boardsRepo.getAll();
 
+/**
+ * Returns the board by Id
+ * @param {string} boardId user Id
+ * @returns {IServiceReturn} Statuscode NotFound if board does not find, if board finds Statuscode Ok and board
+ */
 const getBoard = (boardId: string): IServiceReturn => {
   const board = boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: board };
 };
+
+/**
+ * Create new board
+ * @param {IBoard} board new board
+ * @returns {IServiceReturn} Statuscode Created and new board
+ */
 const createBoard = (board: IBoard): IServiceReturn => {
   const newBoard = {
     id: uuid(),
@@ -29,7 +44,12 @@ const createBoard = (board: IBoard): IServiceReturn => {
   return { code: StatusCode.Created, send: newBoard };
 };
 
-const deleteBoard = async (boardId: string): Promise<IServiceReturn> => {
+/**
+ * Delete board
+ * @param {string} boardId board Id
+ * @returns {IServiceReturn} Statuscode NotFound if board does not find, if board deleted Statuscode Ok
+ */
+const deleteBoard = (boardId: string): IServiceReturn => {
   const board = boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
   boardsRepo.deleteBoard(board);
@@ -38,6 +58,12 @@ const deleteBoard = async (boardId: string): Promise<IServiceReturn> => {
   return { code: StatusCode.NoContent };
 };
 
+/**
+ * Udpate board
+ * @param {string} boardId board Id
+ * @param {INewBoard} newBoard new board
+ * @returns {IServiceReturn} Statuscode NotFound if board does not find, if board updated Statuscode Ok and new board
+ */
 const udpateBoard = (boardId: string, newBoard: INewBoard): IServiceReturn => {
   const board = boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
