@@ -22,6 +22,7 @@ class User {
     this.login = login;
     this.password = password;
   }
+
   /**
    * return data user without password
    * @param {IUser} userId user Id

@@ -14,8 +14,8 @@ export default (
   });
 
   fastify.get<IParams>('/:taskId', async (request, reply: FastifyReply) => {
-    const { boardId, taskId } = request.params;
-    const { code, send } = await tasksService.getTask(taskId);
+    const { taskId } = request.params;
+    const { code, send } = tasksService.getTask(taskId);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
