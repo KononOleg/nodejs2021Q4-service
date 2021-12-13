@@ -22,7 +22,11 @@ class User {
     this.login = login;
     this.password = password;
   }
-
+  /**
+   * return data user without password
+   * @param {IUser} userId user Id
+   * @returns {IResponseUser} data user without password
+   */
   static toResponse(user: IUser): IResponseUser {
     const { id, name, login } = user;
     return { id, name, login };
