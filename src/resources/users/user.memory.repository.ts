@@ -18,7 +18,7 @@ const getUser = (userId: string): IUser | undefined =>
 
 /**
  * Create a new user
- * @param {IUser} newUser user Id
+ * @param {IUser} newUser new board
  * @returns {void}
  */
 const createUser = (newUser: IUser): void => {
@@ -27,7 +27,7 @@ const createUser = (newUser: IUser): void => {
 
 /**
  * Delete user
- * @param {IUser} User user Id
+ * @param {IUser} User user Id, which needs to be removed
  * @returns {void}
  */
 const deleteUser = (user: IUser): void => {
