@@ -3,6 +3,7 @@ import {
   FastifyLoggerOptions,
   FastifyServerOptions,
 } from 'fastify';
+import fs from 'fs';
 import { app } from './app';
 import config from './common/config';
 
@@ -37,12 +38,42 @@ const responseLogging = (): void => {
     done();
   });
 };
+const getDateTime = (): string => new Date().toLocaleString();
+const writeError = (errorMessage: string): void =>
+  fs.appendFile(config.ERROR_LOG, errorMessage, () => {
+    process.exit(9);
+  });
+
+const uncaughtExceptionError = (): void => {
+  process.on('uncaughtException', (e: Error): void => {
+    const errorMessage = `[ ${getDateTime()} ] ERROR:  ${e.message}\n`;
+    writeError(errorMessage);
+  });
+};
+
+const unhandledRejectionError = (): void => {
+  process.on('unhandledRejection', (e: Error): void => {
+    const errorMessage = `[ ${getDateTime()} ] ERROR:  ${e.message}\n`;
+    writeError(errorMessage);
+  });
+};
+
+const setErrorHandler = (): void => {
+  app.setErrorHandler((error, _request, reply) => {
+    const errorMessage = `[ ${getDateTime()} ] ${error}\n`;
+    writeError(errorMessage);
+    reply.status(error.statusCode as number).send(error);
+  });
+};
 
 const logger = (
   _fastify: FastifyInstance,
   _opts: FastifyServerOptions,
   done: () => void
 ): void => {
+  unhandledRejectionError();
+  uncaughtExceptionError();
+  setErrorHandler();
   requestLogging();
   responseLogging();
   done();

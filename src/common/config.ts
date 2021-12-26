@@ -11,4 +11,5 @@ export default {
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
   ALL_LOG: path.join(__dirname, '../../', process.env.ALL_LOG as string),
+  ERROR_LOG: path.join(__dirname, '../../', process.env.ERROR_LOG as string),
 };
