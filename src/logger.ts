@@ -4,13 +4,15 @@ import {
   FastifyServerOptions,
 } from 'fastify';
 import { app } from './app';
+import config from './common/config';
 
 const loggerOptions = {
   logger: {
+    file: config.ALL_LOG,
     prettyPrint: {
       colorize: false,
       ignore: 'pid,hostname,reqId,responseTime',
-      translateTime: true,
+      translateTime: 'SYS:standard',
     },
   },
   disableRequestLogging: true,
