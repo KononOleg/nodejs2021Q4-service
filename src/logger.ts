@@ -10,6 +10,7 @@ import config from './common/config';
 const loggerOptions = {
   logger: {
     file: config.ALL_LOG,
+    level: config.LOG_LEVEL,
     prettyPrint: {
       colorize: false,
       ignore: 'pid,hostname,reqId,responseTime',
