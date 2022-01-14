@@ -1,28 +1,20 @@
-import { v4 as uuid } from 'uuid';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { IResponseUser } from './interfaces/IResponseUser';
 import { IUser } from './interfaces/IUser';
 
+@Entity()
 class User {
-  id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
-  name: string;
+  @Column()
+  name!: string;
 
-  login: string;
+  @Column()
+  login!: string;
 
-  password: string;
-
-  constructor({
-    id = uuid(),
-    name = 'USER',
-    login = 'user',
-    password = 'P@55w0rd',
-  } = {}) {
-    this.id = id;
-    this.name = name;
-    this.login = login;
-    this.password = password;
-  }
-
+  @Column()
+  password!: string;
   /**
    * return data user without password
    * @param {IUser} userId user Id

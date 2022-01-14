@@ -1,36 +1,51 @@
+import { getRepository } from 'typeorm';
+import { INewUser } from './interfaces/INewUser';
 import { IUser } from './interfaces/IUser';
-
-const users: IUser[] = [];
+import User from './user.model';
 
 /**
  * Returns all users
- * @returns {IUser[]} all users
+ * @returns {Promise<IUser[]>} all users
  */
-const getAll = (): IUser[] => users;
+const getAll = (): Promise<IUser[]> => getRepository(User).find();
 
 /**
  * Returns the user by Id
  * @param {string} userId user Id
- * @returns {IUser | undefined} the user by Id
+ * @returns {Promise<IUser | undefined> } the user by Id
  */
-const getUser = (userId: string): IUser | undefined =>
-  users.find((user: IUser) => user.id === userId);
+const getUser = async (userId: string): Promise<IUser | undefined> =>
+  getRepository(User).findOne(userId);
 
 /**
  * Create a new user
- * @param {IUser} newUser new board
- * @returns {void}
+ * @param {IUser} newUser new user
+ * @returns {Promise<IUser>} createdUser return created user
  */
-const createUser = (newUser: IUser): void => {
-  users.push(newUser);
+const createUser = async (newUser: INewUser): Promise<IUser> => {
+  const createdUser = getRepository(User).create(newUser);
+  await getRepository(User).save(createdUser);
+  return createdUser;
 };
 
 /**
  * Delete user
  * @param {IUser} User user Id, which needs to be removed
- * @returns {void}
+ * @returns {Promise<void>}
  */
-const deleteUser = (user: IUser): void => {
-  users.splice(users.indexOf(user), 1);
+const deleteUser = async (user: IUser): Promise<void> => {
+  await getRepository(User).delete(user.id);
 };
-export default { getAll, getUser, createUser, deleteUser };
+
+/**
+ * Update user
+ * @param {IUser} User user, which needs to be update
+ * @param {IUser} newUser new user body
+ * @returns {Promise<IUser>} updateUser return updated user
+ */
+const updateUser = async (user: IUser, newUser: IUser): Promise<IUser> => {
+  getRepository(User).merge(user, newUser);
+  const updateUser = await getRepository(User).save(user);
+  return updateUser;
+};
+export default { getAll, getUser, createUser, deleteUser, updateUser };

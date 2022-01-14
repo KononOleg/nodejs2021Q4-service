@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import usersRepo from './user.memory.repository';
 import tasksRepo from '../tasks/task.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
@@ -10,17 +9,20 @@ import { IResponseUser } from './interfaces/IResponseUser';
 
 /**
  * Returns all users
- * @returns {IResponseUser[]} all users
+ * @returns {Promise<IServiceReturn[]> } all users
  */
-const getAll = (): IResponseUser[] => usersRepo.getAll().map(User.toResponse);
+const getAll = async (): Promise<IResponseUser[]> => {
+  const allUser = await usersRepo.getAll();
+  return allUser.map(User.toResponse);
+};
 
 /**
  * Returns the user by Id
  * @param {string} userId user Id
- * @returns {IServiceReturn} Statuscode NotFound if user does not find, if user finds Statuscode Ok and user
+ * @returns {Promise<IServiceReturn> } Statuscode NotFound if user does not find, if user finds Statuscode Ok and user
  */
-const getUser = (userId: string): IServiceReturn => {
-  const user = usersRepo.getUser(userId);
+const getUser = async (userId: string): Promise<IServiceReturn> => {
+  const user = await usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: User.toResponse(user) };
 };
@@ -28,26 +30,22 @@ const getUser = (userId: string): IServiceReturn => {
 /**
  * Create new user
  * @param {INewUser} user new user
- * @returns {IServiceReturn} Statuscode Created and new user
+ * @returns {Promise<IServiceReturn> } Statuscode Created and new user
  */
-const createUser = (user: INewUser): IServiceReturn => {
-  const newUser = {
-    id: uuid(),
-    ...user,
-  };
-  usersRepo.createUser(newUser);
-  return { code: StatusCode.Created, send: User.toResponse(newUser) };
+const createUser = async (user: INewUser): Promise<IServiceReturn> => {
+  const createdUser = await usersRepo.createUser(user);
+  return { code: StatusCode.Created, send: User.toResponse(createdUser) };
 };
 
 /**
  * Delete user
  * @param {string} userId user Id
- * @returns {IServiceReturn} Statuscode NotFound if user does not find, if user deleted Statuscode Ok
+ * @returns {Promise<IServiceReturn> } Statuscode NotFound if user does not find, if user deleted Statuscode Ok
  */
-const deleteUser = (userId: string): IServiceReturn => {
-  const user = usersRepo.getUser(userId);
+const deleteUser = async (userId: string): Promise<IServiceReturn> => {
+  const user = await usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
-  usersRepo.deleteUser(user);
+  await usersRepo.deleteUser(user);
   const tasks = tasksRepo.getUserTasks(userId);
   for (let i = 0; i < tasks.length; i += 1) {
     tasks[i].userId = null;
@@ -58,15 +56,16 @@ const deleteUser = (userId: string): IServiceReturn => {
  * Udpate user
  * @param {string} userId user Id
  * @param {INewUser} user new user
- * @returns {IServiceReturn} Statuscode NotFound if user does not find, if user updated Statuscode Ok and new user
+ * @returns {Promise<IServiceReturn> } Statuscode NotFound if user does not find, if user updated Statuscode Ok and new user
  */
-const udpateUser = (userId: string, newUser: IUser): IServiceReturn => {
-  const user = usersRepo.getUser(userId);
+const udpateUser = async (
+  userId: string,
+  newUser: IUser
+): Promise<IServiceReturn> => {
+  const user = await usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
-  user.name = newUser.name;
-  user.login = newUser.login;
-  user.password = newUser.password;
-  return { code: StatusCode.Ok, send: User.toResponse(user) };
+  const updateUser = await usersRepo.updateUser(user, newUser);
+  return { code: StatusCode.Ok, send: User.toResponse(updateUser) };
 };
 
 export default { getAll, getUser, createUser, deleteUser, udpateUser };

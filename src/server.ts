@@ -1,6 +1,7 @@
 import config from './common/config';
 import { app } from './app';
 import { createConnection } from 'typeorm';
+import User from './resources/users/user.model';
 
 createConnection({
   type: 'postgres',
@@ -10,6 +11,7 @@ createConnection({
   password: '1234',
   database: 'database',
   synchronize: true,
+  entities: [User],
 })
   .then(async () => {
     app.listen((config.PORT = '4000'));

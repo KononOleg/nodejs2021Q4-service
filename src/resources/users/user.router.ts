@@ -7,20 +7,20 @@ export default (
   opts: FastifyServerOptions,
   done: () => void
 ): void => {
-  fastify.get('/', async (request, reply: FastifyReply) => {
-    const users = usersService.getAll();
+  fastify.get('/', async (_request, reply: FastifyReply) => {
+    const users = await usersService.getAll();
     reply.header('Content-Type', 'application/json;').send(users);
   });
 
   fastify.get<IParams>('/:userId', async (request, reply: FastifyReply) => {
     const { userId } = request.params;
-    const { code, send } = usersService.getUser(userId);
+    const { code, send } = await usersService.getUser(userId);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
   fastify.post<IParams>('/', async (request, reply: FastifyReply) => {
     const user = request.body;
-    const { code, send } = usersService.createUser(user);
+    const { code, send } = await usersService.createUser(user);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
@@ -32,7 +32,7 @@ export default (
   fastify.put<IParams>('/:userId', async (request, reply: FastifyReply) => {
     const { userId } = request.params;
     const newUser = request.body;
-    const { code, send } = usersService.udpateUser(userId, newUser);
+    const { code, send } = await usersService.udpateUser(userId, newUser);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
   done();
