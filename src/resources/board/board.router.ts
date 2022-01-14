@@ -8,7 +8,7 @@ export default (
   done: () => void
 ): void => {
   fastify.get('/', async (request, reply: FastifyReply) => {
-    const boards = boardsService.getAll();
+    const boards = await boardsService.getAll();
     reply.header('Content-Type', 'application/json;').send(boards);
   });
 
@@ -20,7 +20,7 @@ export default (
 
   fastify.post<IParams>('/', async (request, reply: FastifyReply) => {
     const board = request.body;
-    const { code, send } = boardsService.createBoard(board);
+    const { code, send } = await boardsService.createBoard(board);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
@@ -32,7 +32,7 @@ export default (
   fastify.put<IParams>('/:boardId', async (request, reply: FastifyReply) => {
     const { boardId } = request.params;
     const newBoard = request.body;
-    const { code, send } = boardsService.udpateBoard(boardId, newBoard);
+    const { code, send } = await boardsService.udpateBoard(boardId, newBoard);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
   done();

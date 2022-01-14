@@ -7,20 +7,24 @@ import { IBoard } from './interfaces/IBoard';
 import { INewBoard } from './interfaces/INewBoard';
 import { IServiceReturn } from './interfaces/IServiceReturn';
 import { ITask } from '../tasks/interfaces/ITask';
+import { INewColumn } from './interfaces/INewColumn';
 
 /**
  * Returns all board
- * @returns {IBoard[]} all users
+ * @returns {Promise<IBoard[]>} all users
  */
-const getAll = (): IBoard[] => boardsRepo.getAll();
+const getAll = async (): Promise<IBoard[]> => {
+  const allBoard = await boardsRepo.getAll();
+  return allBoard;
+};
 
 /**
  * Returns the board by Id
  * @param {string} boardId user Id
  * @returns {IServiceReturn} Statuscode NotFound if board does not find, if board finds Statuscode Ok and board
  */
-const getBoard = (boardId: string): IServiceReturn => {
-  const board = boardsRepo.getBoard(boardId);
+const getBoard = async (boardId: string): Promise<IServiceReturn> => {
+  const board = await boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: board };
 };
@@ -28,20 +32,18 @@ const getBoard = (boardId: string): IServiceReturn => {
 /**
  * Create new board
  * @param {IBoard} board new board
- * @returns {IServiceReturn} Statuscode Created and new board
+ * @returns {Promise<IServiceReturn>} Statuscode Created and new board
  */
-const createBoard = (board: IBoard): IServiceReturn => {
+const createBoard = async (board: INewBoard): Promise<IServiceReturn> => {
   const newBoard = {
-    id: uuid(),
     title: board.title,
-    columns: board.columns.map((column: IColumn) => ({
-      id: uuid(),
+    columns: board.columns.map((column: INewColumn) => ({
       title: column.title,
       order: column.order,
     })),
   };
-  boardsRepo.createBoard(newBoard);
-  return { code: StatusCode.Created, send: newBoard };
+  const createdBoard = await boardsRepo.createBoard(newBoard);
+  return { code: StatusCode.Created, send: createdBoard };
 };
 
 /**
@@ -49,10 +51,10 @@ const createBoard = (board: IBoard): IServiceReturn => {
  * @param {string} boardId board Id
  * @returns {IServiceReturn} Statuscode NotFound if board does not find, if board deleted Statuscode Ok
  */
-const deleteBoard = (boardId: string): IServiceReturn => {
-  const board = boardsRepo.getBoard(boardId);
+const deleteBoard = async (boardId: string): Promise<IServiceReturn> => {
+  const board = await boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
-  boardsRepo.deleteBoard(board);
+  await boardsRepo.deleteBoard(board);
   const tasks = tasksRepo.getAll(boardId);
   tasks.map((task: ITask) => tasksRepo.deleteTask(task));
   return { code: StatusCode.NoContent };
@@ -64,12 +66,14 @@ const deleteBoard = (boardId: string): IServiceReturn => {
  * @param {INewBoard} newBoard new board
  * @returns {IServiceReturn} Statuscode NotFound if board does not find, if board updated Statuscode Ok and new board
  */
-const udpateBoard = (boardId: string, newBoard: INewBoard): IServiceReturn => {
-  const board = boardsRepo.getBoard(boardId);
+const udpateBoard = async (
+  boardId: string,
+  newBoard: INewBoard
+): Promise<IServiceReturn> => {
+  const board = await boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
-  board.title = newBoard.title;
-  board.columns = newBoard.columns;
-  return { code: StatusCode.Ok, send: board };
+  const updateBoard = await boardsRepo.updateBoard(board, newBoard);
+  return { code: StatusCode.Ok, send: updateBoard };
 };
 
 export default { getAll, getBoard, createBoard, deleteBoard, udpateBoard };

@@ -1,5 +1,5 @@
-export interface IColumn {
+import { INewColumn } from './INewColumn';
+
+export interface IColumn extends INewColumn {
   id: string;
-  title: string;
-  order: number;
 }
