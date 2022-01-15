@@ -3,6 +3,7 @@ import Board from './board.model';
 import ColumnEntity from './column.model';
 import { IBoard } from './interfaces/IBoard';
 import { INewBoard } from './interfaces/INewBoard';
+import { INewColumn } from './interfaces/INewColumn';
 
 /**
  * Returns all boards
@@ -17,25 +18,27 @@ const getAll = (): Promise<IBoard[]> =>
  * @returns { Promise<IBoard | undefined>} the user by Id
  */
 const getBoard = async (boardId: string): Promise<IBoard | undefined> =>
-  getRepository(Board).findOne(boardId);
+  getRepository(Board).findOne(boardId, { relations: ['columns'] });
 
 /**
  * Create a new board
  * @param {IBoard} newBoard board Id
  * @returns {Promise<IBoard>}
  */
-const createBoard = async (newBoard: any): Promise<any> => {
+const createBoard = async (newBoard: INewBoard): Promise<IBoard> => {
+  const createdBoard = newBoard;
   const columns = await Promise.all(
-    newBoard.columns.map(async (column: any) => {
+    newBoard.columns.map(async (column: INewColumn) => {
       const newColumn = new ColumnEntity();
       newColumn.order = column.order;
       newColumn.title = column.title;
-      return await getRepository(ColumnEntity).save(newColumn);
+      await getRepository(ColumnEntity).save(newColumn);
+      return newColumn;
     })
   );
-  newBoard.columns = columns;
-  const createdBoard = getRepository(Board).save(newBoard);
-  return createdBoard;
+  createdBoard.columns = columns;
+  const result = getRepository(Board).save(newBoard);
+  return result;
 };
 
 /**
@@ -44,6 +47,7 @@ const createBoard = async (newBoard: any): Promise<any> => {
  * @returns {void}
  */
 const deleteBoard = async (board: IBoard): Promise<void> => {
+  await getRepository(ColumnEntity).delete({ board });
   await getRepository(Board).delete(board.id);
 };
 
@@ -58,7 +62,7 @@ const updateBoard = async (
   newBoard: INewBoard
 ): Promise<IBoard> => {
   getRepository(Board).merge(board, newBoard);
-  const updateBoard = await getRepository(Board).save(board);
-  return updateBoard;
+  const result = await getRepository(Board).save(board);
+  return result;
 };
 export default { getAll, getBoard, createBoard, deleteBoard, updateBoard };

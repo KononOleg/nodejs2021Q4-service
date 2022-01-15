@@ -1,6 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import ColumnEntity from './column.model';
-import { IColumn } from './interfaces/IColumn';
 
 @Entity()
 class Board {
@@ -10,7 +15,10 @@ class Board {
   @Column()
   title!: string;
 
-  @OneToMany(() => ColumnEntity, (column) => column.board)
+  @OneToMany(() => ColumnEntity, (column) => column.board, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   columns!: ColumnEntity[];
 }
 

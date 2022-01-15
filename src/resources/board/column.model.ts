@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import Board from './board.model';
-import { IColumn } from './interfaces/IColumn';
+
 @Entity()
 class ColumnEntity {
   @PrimaryGeneratedColumn('uuid')

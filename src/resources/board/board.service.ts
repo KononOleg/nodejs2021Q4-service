@@ -1,13 +1,10 @@
-import { v4 as uuid } from 'uuid';
 import boardsRepo from './board.memory.repository';
 import tasksRepo from '../tasks/task.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
-import { IColumn } from './interfaces/IColumn';
 import { IBoard } from './interfaces/IBoard';
 import { INewBoard } from './interfaces/INewBoard';
 import { IServiceReturn } from './interfaces/IServiceReturn';
 import { ITask } from '../tasks/interfaces/ITask';
-import { INewColumn } from './interfaces/INewColumn';
 
 /**
  * Returns all board
@@ -35,14 +32,7 @@ const getBoard = async (boardId: string): Promise<IServiceReturn> => {
  * @returns {Promise<IServiceReturn>} Statuscode Created and new board
  */
 const createBoard = async (board: INewBoard): Promise<IServiceReturn> => {
-  const newBoard = {
-    title: board.title,
-    columns: board.columns.map((column: INewColumn) => ({
-      title: column.title,
-      order: column.order,
-    })),
-  };
-  const createdBoard = await boardsRepo.createBoard(newBoard);
+  const createdBoard = await boardsRepo.createBoard(board);
   return { code: StatusCode.Created, send: createdBoard };
 };
 
