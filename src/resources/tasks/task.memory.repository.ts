@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import { INewTask } from './interfaces/INewTask';
 import { ITask } from './interfaces/ITask';
-import Task from './task.model';
+import Task from '../../entity/task.model';
 
 /**
  * Returns all tasks by boardId

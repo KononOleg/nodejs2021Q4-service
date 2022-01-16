@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import Task from '../tasks/task.model';
+import Task from './task.model';
 import Board from './board.model';
 
 @Entity()

@@ -5,9 +5,9 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import Board from '../board/board.model';
-import ColumnEntity from '../board/column.model';
-import User from '../users/user.model';
+import Board from './board.model';
+import ColumnEntity from './column.model';
+import User from './user.model';
 
 @Entity()
 class Task {

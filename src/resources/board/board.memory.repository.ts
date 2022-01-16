@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
-import Task from '../tasks/task.model';
-import Board from './board.model';
-import ColumnEntity from './column.model';
+import Task from '../../entity/task.model';
+import Board from '../../entity/board.model';
+import ColumnEntity from '../../entity/column.model';
 import { IBoard } from './interfaces/IBoard';
 import { INewBoard } from './interfaces/INewBoard';
 import { INewColumn } from './interfaces/INewColumn';

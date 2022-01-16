@@ -1,6 +1,6 @@
 import usersRepo from './user.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
-import User from './user.model';
+import User from '../../entity/user.model';
 import { IUser } from './interfaces/IUser';
 import { INewUser } from './interfaces/INewUser';
 import { IServiceReturn } from './interfaces/IServiceReturn';

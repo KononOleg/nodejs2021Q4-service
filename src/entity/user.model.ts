@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import Task from '../tasks/task.model';
-import { IResponseUser } from './interfaces/IResponseUser';
-import { IUser } from './interfaces/IUser';
+import Task from './task.model';
+import { IResponseUser } from '../resources/users/interfaces/IResponseUser';
+import { IUser } from '../resources/users/interfaces/IUser';
 
 @Entity()
 class User {

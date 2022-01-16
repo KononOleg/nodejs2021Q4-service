@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import { INewUser } from './interfaces/INewUser';
 import { IUser } from './interfaces/IUser';
-import User from './user.model';
+import User from '../../entity/user.model';
 
 /**
  * Returns all users
