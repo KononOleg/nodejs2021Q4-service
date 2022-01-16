@@ -1,72 +1,31 @@
-# RS School REST service
+# PostgreSQL & Typeorm
 
-## Prerequisites
+## Migration
 
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 
-## Downloading
+Once you setup connection options you can create a new migration using CLI:
 
 ```
-git clone {repository URL}
+migration:create
 ```
 
-## Installing NPM modules
+TypeORM is able to automatically generate migration files with schema changes you made.
+You can run following command:
 
 ```
-npm install
+migration:generate
 ```
 
-## Running application
+Once you have a migration to run on production, you can run them using a CLI command:
 
 ```
-npm start
+migration:run
 ```
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
-
-## Testing
-
-After application running open new terminal and enter:
-
-To run all tests without authorization
+If for some reason you want to revert the changes, you can run:
 
 ```
-npm test
+migration:revert
 ```
 
-To run only one of all test suites (users, boards or tasks)
 
-```
-npm test <suite name>
-```
-
-To run all test with authorization
-
-```
-npm run test:auth
-```
-
-To run only specific test suite with authorization (users, boards or tasks)
-
-```
-npm run test:auth <suite name>
-```
-
-## Development
-
-If you're using VSCode, you can get a better developer experience from integration with [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions.
-
-### Auto-fix and format
-
-```
-npm run lint
-```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
