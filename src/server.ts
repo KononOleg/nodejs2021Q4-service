@@ -1,21 +1,10 @@
 import { createConnection } from 'typeorm';
 import config from './common/config';
 import { app } from './app';
-import User from './resources/users/user.model';
-import Board from './resources/board/board.model';
-import ColumnEntity from './resources/board/column.model';
-import Task from './resources/tasks/task.model';
 
-createConnection({
-  type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: '1234',
-  database: 'database',
-  synchronize: true,
-  entities: [User, Board, ColumnEntity, Task],
-})
+import ConnectionOptions from './common/ConnectionOptions';
+
+createConnection(ConnectionOptions)
   .then(async () => {
     app.listen((config.PORT = '4000'));
   })
