@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Task from '../tasks/task.model';
 import { IResponseUser } from './interfaces/IResponseUser';
 import { IUser } from './interfaces/IUser';
 
@@ -15,6 +16,13 @@ class User {
 
   @Column()
   password!: string;
+
+  @OneToMany(() => Task, (task) => task.user, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  task?: Task[];
+
   /**
    * return data user without password
    * @param {IUser} userId user Id

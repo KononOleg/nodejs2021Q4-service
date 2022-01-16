@@ -1,8 +1,8 @@
 export interface INewTask {
   title: string;
-  order: string;
+  order: number;
   description: string;
-  userId: string | null;
+  userId?: string;
   boardId: string;
   columnId: string;
 }

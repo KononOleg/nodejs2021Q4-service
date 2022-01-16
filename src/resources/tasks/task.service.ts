@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import tasksRepo from './task.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
 import { IServiceReturn } from './interfaces/IServiceReturn';
@@ -9,8 +8,8 @@ import { INewTask } from './interfaces/INewTask';
  * @param {string} boardId board Id
  * @returns {IServiceReturn} Statuscode NotFound if tasks does not find, if board finds Statuscode Ok and tasks
  */
-const getAll = (boardId: string): IServiceReturn => {
-  const tasks = tasksRepo.getAll(boardId);
+const getAll = async (boardId: string): Promise<IServiceReturn> => {
+  const tasks = await tasksRepo.getAll(boardId);
   if (!tasks) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: tasks };
 };
@@ -20,8 +19,8 @@ const getAll = (boardId: string): IServiceReturn => {
  * @param {string} taskId task Id
  * @returns {IServiceReturn} Statuscode NotFound if tasks does not find, if board finds Statuscode Ok and tasks
  */
-const getTask = (taskId: string): IServiceReturn => {
-  const task = tasksRepo.getTask(taskId);
+const getTask = async (taskId: string): Promise<IServiceReturn> => {
+  const task = await tasksRepo.getTask(taskId);
   if (!task) return { code: StatusCode.NotFound };
   return { code: StatusCode.Ok, send: task };
 };
@@ -32,13 +31,11 @@ const getTask = (taskId: string): IServiceReturn => {
  * @param {INewTask} task new task
  * @returns {IServiceReturn} Statuscode Created and new task
  */
-const createTask = (boardId: string, task: INewTask): IServiceReturn => {
-  const newTask = {
-    id: uuid(),
-    ...task,
-    boardId,
-  };
-  tasksRepo.createTask(newTask);
+const createTask = async (
+  boardId: string,
+  task: INewTask
+): Promise<IServiceReturn> => {
+  const newTask = await tasksRepo.createTask(boardId, task);
   return { code: StatusCode.Created, send: newTask };
 };
 
@@ -47,11 +44,10 @@ const createTask = (boardId: string, task: INewTask): IServiceReturn => {
  * @param {string} taskId task Id
  * @returns {IServiceReturn} Statuscode NotFound if task does not find, if task deleted Statuscode Ok
  */
-const deleteTask = (taskId: string): IServiceReturn => {
-  const task = tasksRepo.getTask(taskId);
+const deleteTask = async (taskId: string): Promise<IServiceReturn> => {
+  const task = await tasksRepo.getTask(taskId);
   if (!task) return { code: StatusCode.NotFound };
-
-  tasksRepo.deleteTask(task);
+  await tasksRepo.deleteTask(task);
   return { code: StatusCode.NoContent };
 };
 
@@ -61,11 +57,14 @@ const deleteTask = (taskId: string): IServiceReturn => {
  * @param {INewBoard} newTask new task
  * @returns {IServiceReturn} Statuscode NotFound if task does not find, if task updated Statuscode Ok and new task
  */
-const udpateTask = (taskId: string, newTask: INewTask): IServiceReturn => {
-  let task = tasksRepo.getTask(taskId);
+const udpateTask = async (
+  taskId: string,
+  newTask: INewTask
+): Promise<IServiceReturn> => {
+  const task = await tasksRepo.getTask(taskId);
   if (!task) return { code: StatusCode.NotFound };
-  task = Object.assign(task, newTask);
-  return { code: StatusCode.Ok, send: task };
+  const updatedTask = await tasksRepo.updateTask(task, newTask);
+  return { code: StatusCode.Ok, send: updatedTask };
 };
 export default {
   getAll,

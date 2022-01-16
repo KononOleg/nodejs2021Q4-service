@@ -1,4 +1,5 @@
 import { getRepository } from 'typeorm';
+import Task from '../tasks/task.model';
 import Board from './board.model';
 import ColumnEntity from './column.model';
 import { IBoard } from './interfaces/IBoard';
@@ -47,6 +48,7 @@ const createBoard = async (newBoard: INewBoard): Promise<IBoard> => {
  * @returns {void}
  */
 const deleteBoard = async (board: IBoard): Promise<void> => {
+  await getRepository(Task).delete({ board });
   await getRepository(ColumnEntity).delete({ board });
   await getRepository(Board).delete(board.id);
 };

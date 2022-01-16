@@ -1,10 +1,8 @@
 import boardsRepo from './board.memory.repository';
-import tasksRepo from '../tasks/task.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
 import { IBoard } from './interfaces/IBoard';
 import { INewBoard } from './interfaces/INewBoard';
 import { IServiceReturn } from './interfaces/IServiceReturn';
-import { ITask } from '../tasks/interfaces/ITask';
 
 /**
  * Returns all board
@@ -45,8 +43,8 @@ const deleteBoard = async (boardId: string): Promise<IServiceReturn> => {
   const board = await boardsRepo.getBoard(boardId);
   if (!board) return { code: StatusCode.NotFound };
   await boardsRepo.deleteBoard(board);
-  const tasks = tasksRepo.getAll(boardId);
-  tasks.map((task: ITask) => tasksRepo.deleteTask(task));
+  /*   const tasks = tasksRepo.getAll(boardId);
+  tasks.map((task: ITask) => tasksRepo.deleteTask(task)); */
   return { code: StatusCode.NoContent };
 };
 

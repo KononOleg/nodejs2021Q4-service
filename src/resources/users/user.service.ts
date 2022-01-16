@@ -1,5 +1,4 @@
 import usersRepo from './user.memory.repository';
-import tasksRepo from '../tasks/task.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
 import User from './user.model';
 import { IUser } from './interfaces/IUser';
@@ -46,10 +45,6 @@ const deleteUser = async (userId: string): Promise<IServiceReturn> => {
   const user = await usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
   await usersRepo.deleteUser(user);
-  const tasks = tasksRepo.getUserTasks(userId);
-  for (let i = 0; i < tasks.length; i += 1) {
-    tasks[i].userId = null;
-  }
   return { code: StatusCode.NoContent };
 };
 /**

@@ -15,14 +15,14 @@ export default (
 
   fastify.get<IParams>('/:taskId', async (request, reply: FastifyReply) => {
     const { taskId } = request.params;
-    const { code, send } = tasksService.getTask(taskId);
+    const { code, send } = await tasksService.getTask(taskId);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 
   fastify.post<IParams>('/', async (request, reply: FastifyReply) => {
     const { boardId } = request.params;
     const task = request.body;
-    const { code, send } = tasksService.createTask(boardId, task);
+    const { code, send } = await tasksService.createTask(boardId, task);
     reply.code(code).header('Content-Type', 'application/json;').send(send);
   });
 

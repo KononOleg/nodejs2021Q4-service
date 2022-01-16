@@ -1,10 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Task from '../tasks/task.model';
 import ColumnEntity from './column.model';
 
 @Entity()
@@ -20,6 +15,12 @@ class Board {
     onUpdate: 'CASCADE',
   })
   columns!: ColumnEntity[];
+
+  @OneToMany(() => Task, (task) => task.board, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  task?: Task[];
 }
 
 export default Board;

@@ -45,7 +45,7 @@ const deleteUser = async (user: IUser): Promise<void> => {
  */
 const updateUser = async (user: IUser, newUser: IUser): Promise<IUser> => {
   getRepository(User).merge(user, newUser);
-  const updateUser = await getRepository(User).save(user);
-  return updateUser;
+  const updatedUser = await getRepository(User).save(user);
+  return updatedUser;
 };
 export default { getAll, getUser, createUser, deleteUser, updateUser };
