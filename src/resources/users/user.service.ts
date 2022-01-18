@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import usersRepo from './user.memory.repository';
 import StatusCode from '../../StatusCode/StatusCode';
 import User from '../../entity/user.model';
@@ -5,6 +6,7 @@ import { IUser } from './interfaces/IUser';
 import { INewUser } from './interfaces/INewUser';
 import { IServiceReturn } from './interfaces/IServiceReturn';
 import { IResponseUser } from './interfaces/IResponseUser';
+import config from '../../common/config';
 
 /**
  * Returns all users
@@ -32,7 +34,12 @@ const getUser = async (userId: string): Promise<IServiceReturn> => {
  * @returns {Promise<IServiceReturn> } Statuscode Created and new user
  */
 const createUser = async (user: INewUser): Promise<IServiceReturn> => {
-  const createdUser = await usersRepo.createUser(user);
+  const hashPassword = await bcrypt.hash(user.password, config.SALT_OR_ROUNDS);
+  const newUser = {
+    ...user,
+    password: hashPassword,
+  };
+  const createdUser = await usersRepo.createUser(newUser);
   return { code: StatusCode.Created, send: User.toResponse(createdUser) };
 };
 
@@ -59,7 +66,11 @@ const udpateUser = async (
 ): Promise<IServiceReturn> => {
   const user = await usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
-  const updateUser = await usersRepo.updateUser(user, newUser);
+  const hashPassword = await bcrypt.hash(user.password, config.SALT_OR_ROUNDS);
+  const updateUser = await usersRepo.updateUser(user, {
+    ...newUser,
+    password: hashPassword,
+  });
   return { code: StatusCode.Ok, send: User.toResponse(updateUser) };
 };
 
