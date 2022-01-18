@@ -18,6 +18,14 @@ const getUser = async (userId: string): Promise<IUser | undefined> =>
   getRepository(User).findOne(userId);
 
 /**
+ * Returns the user by login
+ * @param {string} login user login
+ * @returns {Promise<IUser | undefined> } the user by login
+ */
+const getUserByLogin = async (login: string): Promise<IUser | undefined> =>
+  getRepository(User).findOne({ login: login });
+
+/**
  * Create a new user
  * @param {IUser} newUser new user
  * @returns {Promise<IUser>} createdUser return created user
@@ -48,4 +56,11 @@ const updateUser = async (user: IUser, newUser: IUser): Promise<IUser> => {
   const updatedUser = await getRepository(User).save(user);
   return updatedUser;
 };
-export default { getAll, getUser, createUser, deleteUser, updateUser };
+export default {
+  getAll,
+  getUser,
+  createUser,
+  deleteUser,
+  updateUser,
+  getUserByLogin,
+};
