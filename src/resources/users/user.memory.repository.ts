@@ -23,7 +23,7 @@ const getUser = async (userId: string): Promise<IUser | undefined> =>
  * @returns {Promise<IUser | undefined> } the user by login
  */
 const getUserByLogin = async (login: string): Promise<IUser | undefined> =>
-  getRepository(User).findOne({ login: login });
+  getRepository(User).findOne({ login });
 
 /**
  * Create a new user

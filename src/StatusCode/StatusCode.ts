@@ -4,5 +4,6 @@ const StatusCode = {
   NoContent: 204,
   NotFound: 404,
   BadRequest: 400,
+  Forbidden: 403,
 };
 export default StatusCode;

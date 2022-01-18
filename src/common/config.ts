@@ -8,7 +8,7 @@ dotenv.config({
 export default {
   PORT: (process.env.PORT = '4000'),
   NODE_ENV: process.env.NODE_ENV,
-  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY as string,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
   ALL_LOG: path.join(__dirname, '../../', process.env.ALL_LOG as string),
   ERROR_LOG: path.join(__dirname, '../../', process.env.ERROR_LOG as string),
