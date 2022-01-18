@@ -13,5 +13,4 @@ export default {
   ALL_LOG: path.join(__dirname, '../../', process.env.ALL_LOG as string),
   ERROR_LOG: path.join(__dirname, '../../', process.env.ERROR_LOG as string),
   LOG_LEVEL: LogLevel[(process.env.LOG_LEVEL as keyof typeof LogLevel) || 4],
-  SALT_OR_ROUNDS: process.env.SALT_OR_ROUNDS || 8,
 };
