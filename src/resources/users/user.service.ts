@@ -6,7 +6,6 @@ import { IUser } from './interfaces/IUser';
 import { INewUser } from './interfaces/INewUser';
 import { IServiceReturn } from './interfaces/IServiceReturn';
 import { IResponseUser } from './interfaces/IResponseUser';
-import config from '../../common/config';
 
 /**
  * Returns all users
