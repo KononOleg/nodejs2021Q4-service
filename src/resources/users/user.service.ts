@@ -6,6 +6,7 @@ import { IUser } from './interfaces/IUser';
 import { INewUser } from './interfaces/INewUser';
 import { IServiceReturn } from './interfaces/IServiceReturn';
 import { IResponseUser } from './interfaces/IResponseUser';
+import config from '../../common/config';
 
 /**
  * Returns all users
@@ -33,7 +34,7 @@ const getUser = async (userId: string): Promise<IServiceReturn> => {
  * @returns {Promise<IServiceReturn> } Statuscode Created and new user
  */
 const createUser = async (user: INewUser): Promise<IServiceReturn> => {
-  const hashPassword = await bcrypt.hash(user.password, 8);
+  const hashPassword = await bcrypt.hash(user.password, config.SALT_OR_ROUNDS);
   const newUser = {
     ...user,
     password: hashPassword,
@@ -65,8 +66,8 @@ const udpateUser = async (
 ): Promise<IServiceReturn> => {
   const user = await usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
-  const newPassword = user.password || (await bcrypt.hash(user.password, 8));
-  /*   const hashPassword = await  */
+  const newPassword =
+    user.password || (await bcrypt.hash(user.password, config.SALT_OR_ROUNDS));
   const updateUser = await usersRepo.updateUser(user, {
     ...newUser,
     password: newPassword,
