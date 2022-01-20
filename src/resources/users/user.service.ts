@@ -65,10 +65,11 @@ const udpateUser = async (
 ): Promise<IServiceReturn> => {
   const user = await usersRepo.getUser(userId);
   if (!user) return { code: StatusCode.NotFound };
-  const hashPassword = await bcrypt.hash(user.password, 8);
+  const newPassword = user.password || (await bcrypt.hash(user.password, 8));
+  /*   const hashPassword = await  */
   const updateUser = await usersRepo.updateUser(user, {
     ...newUser,
-    password: hashPassword,
+    password: newPassword,
   });
   return { code: StatusCode.Ok, send: User.toResponse(updateUser) };
 };
