@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { FastifyInstance, FastifyServerOptions } from 'fastify';
-import { app } from '../app';
 import config from '../common/config';
 
+let app;
 export default (
   _fastify: FastifyInstance,
   _opts: FastifyServerOptions,

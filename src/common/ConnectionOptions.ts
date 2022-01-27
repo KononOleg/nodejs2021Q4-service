@@ -13,8 +13,8 @@ const ConnectionOptions = {
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
-  synchronize: false,
-  entities: [process.env.TYPEORM_ENTITY],
+  synchronize: true,
+  entities: [],
 };
 
 export default ConnectionOptions as ConnectionOptions;

@@ -4,7 +4,7 @@ import {
   FastifyServerOptions,
 } from 'fastify';
 import fs from 'fs';
-import { app } from '../app';
+let app;
 import config from '../common/config';
 
 const loggerOptions = {
