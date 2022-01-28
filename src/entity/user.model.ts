@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import Task from './task.model';
 import { IResponseUser } from '../resources/users/interfaces/IResponseUser';
 import { IUser } from '../resources/users/interfaces/IUser';
@@ -14,7 +14,7 @@ class User {
   @Column()
   login!: string;
 
-  @Column()
+  @Column({ select: false })
   password!: string;
 
   @OneToMany(() => Task, (task) => task.user, {
