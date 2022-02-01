@@ -19,13 +19,13 @@ class ColumnEntity {
   @Column()
   order!: number;
 
-  @ManyToOne(() => Board, (board) => board.columns)
-  board!: Board;
-
-  @OneToMany(() => Task, (task) => task.column, {
+  @ManyToOne(() => Board, (board) => board.columns, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
+  board!: Board;
+
+  @OneToMany(() => Task, (task) => task.column)
   task?: Task[];
 }
 

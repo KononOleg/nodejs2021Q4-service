@@ -10,16 +10,10 @@ class Board {
   @Column()
   title!: string;
 
-  @OneToMany(() => ColumnEntity, (column) => column.board, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @OneToMany(() => ColumnEntity, (column) => column.board)
   columns!: ColumnEntity[];
 
-  @OneToMany(() => Task, (task) => task.board, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @OneToMany(() => Task, (task) => task.board)
   task?: Task[];
 }
 
