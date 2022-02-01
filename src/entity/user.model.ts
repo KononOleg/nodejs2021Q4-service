@@ -17,10 +17,7 @@ class User {
   @Column({ select: false })
   password!: string;
 
-  @OneToMany(() => Task, (task) => task.user, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
+  @OneToMany(() => Task, (task) => task.user)
   task?: Task[];
 
   /**

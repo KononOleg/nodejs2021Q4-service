@@ -33,14 +33,18 @@ class Task {
   @Column({ nullable: true })
   boardId!: string;
 
-  @ManyToOne(() => Board, (board) => board.task)
+  @ManyToOne(() => Board, (board) => board.task, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'boardId' })
   board!: Board;
 
   @Column({ nullable: true })
   columnId!: string;
 
-  @ManyToOne(() => ColumnEntity, (column) => column.task)
+  @ManyToOne(() => ColumnEntity, (column) => column.task, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'columnId' })
   column!: ColumnEntity;
 }

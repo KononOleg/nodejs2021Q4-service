@@ -23,7 +23,7 @@ export class BoardsService {
     });
     if (!board)
       throw new HttpException(
-        `User with parameter ${parameter} not found`,
+        `Board with parameter ${parameter} not found`,
         HttpStatus.NOT_FOUND
       );
     else return board;
@@ -43,7 +43,7 @@ export class BoardsService {
     );
     const createdBoard = {
       ...newBoard,
-      newColumns,
+      columns: newColumns,
     };
     return this.boardsRepository.save(createdBoard);
   }
