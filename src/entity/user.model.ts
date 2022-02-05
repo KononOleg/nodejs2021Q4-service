@@ -1,4 +1,4 @@
-import { IReturnUser } from 'src/resources_nestJS/users/interfaces/IReturnUser';
+import { IReturnUser } from 'src/resources/users/interfaces/IReturnUser';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import Task from './task.model';
 
