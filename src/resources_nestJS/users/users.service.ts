@@ -33,7 +33,10 @@ export class UsersService {
   }
 
   async findOneByLogin(login: string): Promise<User> {
-    return this.usersRepository.findOne({ login });
+    return this.usersRepository.findOne({
+      where: { login },
+      select: ['id', 'name', 'login', 'password'],
+    });
   }
 
   async create(createUserDto: CreateUserDTO): Promise<IReturnUser> {

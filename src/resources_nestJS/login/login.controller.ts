@@ -1,4 +1,4 @@
-import { Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthorizationUserDTO } from './dto/AuthorizationUser.dto';
 import { IToken } from './interfaces/IToken';
 import { LoginService } from './login.service';
@@ -8,7 +8,7 @@ export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
   @Post()
-  login(@Param() params: AuthorizationUserDTO): Promise<IToken> {
-    return this.loginService.login(params.login, params.password);
+  login(@Body() body: AuthorizationUserDTO): Promise<IToken> {
+    return this.loginService.login(body.login, body.password);
   }
 }

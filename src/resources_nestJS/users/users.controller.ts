@@ -6,7 +6,9 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '../../Middleware/auth.guard';
 import User from '../../entity/user.model';
 import { CreateUserDTO } from './dto/CreateUser.dto';
 import { ParamUserDto } from './dto/ParamUser.dto';
@@ -14,6 +16,7 @@ import { IReturnUser } from './interfaces/IReturnUser';
 import { UsersService } from './users.service';
 
 @Controller('users')
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
