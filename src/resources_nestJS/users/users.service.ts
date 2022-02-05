@@ -32,6 +32,10 @@ export class UsersService {
     else return user;
   }
 
+  async findOneByLogin(login: string): Promise<User> {
+    return this.usersRepository.findOne({ login });
+  }
+
   async create(createUserDto: CreateUserDTO): Promise<IReturnUser> {
     const hashPassword = await bcrypt.hash(
       createUserDto.password,
