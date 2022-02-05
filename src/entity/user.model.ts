@@ -1,7 +1,6 @@
+import { IReturnUser } from 'src/resources_nestJS/users/interfaces/IReturnUser';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import Task from './task.model';
-import { IResponseUser } from '../resources/users/interfaces/IResponseUser';
-import { IUser } from '../resources/users/interfaces/IUser';
 
 @Entity()
 class User {
@@ -25,7 +24,7 @@ class User {
    * @param {IUser} userId user Id
    * @returns {IResponseUser} data user without password
    */
-  static toResponse(user: IUser): IResponseUser {
+  static toResponse(user: User): IReturnUser {
     const { id, name, login } = user;
     return { id, name, login };
   }
