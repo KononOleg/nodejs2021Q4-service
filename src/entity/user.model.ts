@@ -1,5 +1,5 @@
-import { IReturnUser } from 'src/resources/users/interfaces/IReturnUser';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { IReturnUser } from '../resources/users/interfaces/IReturnUser';
 import Task from './task.model';
 
 @Entity()
