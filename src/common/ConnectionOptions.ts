@@ -17,7 +17,7 @@ const ConnectionOptions = {
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
-  synchronize: true,
+  synchronize: false,
   entities: [User, Task, Board, ColumnEntity],
 };
 
