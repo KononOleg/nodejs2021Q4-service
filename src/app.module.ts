@@ -6,6 +6,7 @@ import { BoardsModule } from './resources/boards/boards.module';
 import { TasksModule } from './resources/tasks/tasks.module';
 import { LoginModule } from './resources/login/login.module';
 import { LoggerMiddleware } from './Middleware/logger.middleware';
+import { FileModule } from './resources/file/file.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { LoggerMiddleware } from './Middleware/logger.middleware';
     BoardsModule,
     TasksModule,
     LoginModule,
+    FileModule,
   ],
   providers: [Logger],
 })
