@@ -22,52 +22,53 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Performance comparison
+## Express
+|                                      |                 |
+|--------------------------------------|-----------------|
+| http.codes.200                       |     1540        |
+| http.codes.201                       |     385         |
+| http.request_rate                    |     118/sec     |
+| http.requests                        |     1925        |
+| http.response_time                   |                 |
+| min                                  |     1           |
+| max                                  |     578         |
+| median                               |     10.9        |
+| p95                                  |     391.6       |
+| p99                                  |     507.8       |
+| http.responses                       |     1925        |
+| vusers.completed                     |     385         |
+| vusers.created                       |     385         |
+| vusers.created_by_name.test /users   |     385         |
+| vusers.session_length                |                 |
+| min                                  |     36.7        |
+| max                                  |     1728.6      |
+| median                               |     68.7        |
+| p95                                  |     1620        |
+| p99                                  |     1686.1      |
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Fastify
+|                                      |                 |
+|--------------------------------------|-----------------|
+| http.codes.200                       |     1464        |
+| http.codes.201                       |     366         |
+| http.request_rate                    |     134/sec     |
+| http.requests                        |     1830        |
+| http.response_time                   |                 |
+| min                                  |     1           |
+| max                                  |     421         |
+| median                               |     10.9        |
+| p95                                  |     77.5        |
+| p99                                  |     156         |
+| http.responses                       |     1830        |
+| vusers.completed                     |     366         |
+| vusers.created                       |     366         |
+| vusers.created_by_name.test /users   |     366         |
+| vusers.session_length                |                 |
+| min                                  |     37.7        |
+| max                                  |     749         |
+| median                               |     76          |
+| p95                                  |     320.        |
+| p99                                  |     561.2       |
 
-## Installation
 
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
